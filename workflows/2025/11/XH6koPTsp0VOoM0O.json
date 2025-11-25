@@ -508,7 +508,7 @@
           "value": "={{ $('Config').item.json.repo_name }}",
           "mode": ""
         },
-        "filePath": "={{ $('Config').first().json.repo_path }}{{ $json.subPath }}{{$('Execute Workflow Trigger').first().json.id}}.json",
+        "filePath": "={{ $('Config').item.json.repo_path }}{{ $json.subPath }}{{$('Execute Workflow Trigger').first().json.id}}.json",
         "fileContent": "={{$('isDiffOrNew').item.json[\"n8n_data_stringy\"]}}",
         "commitMessage": "={{$('Execute Workflow Trigger').first().json.name}} ({{$json.github_status}})"
       },
@@ -681,7 +681,7 @@
           "value": "={{ $json.repo_name }}",
           "mode": ""
         },
-        "filePath": "={{ $json.repo_path }}\n{{ $('Execute Workflow Trigger').first().json.createdAt.split('-')[0] }}/{{ $('Execute Workflow Trigger').first().json.createdAt.split('-')[1] }}/{{$json.id}}",
+        "filePath": "={{ $json.repo_path }}{{ $('Execute Workflow Trigger').first().json.createdAt.split('-')[0] }}/{{ $('Execute Workflow Trigger').first().json.createdAt.split('-')[1] }}/{{$json.id}}.json",
         "asBinaryProperty": false,
         "additionalParameters": {}
       },
@@ -812,6 +812,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-25T21:22:33.000Z",
-  "versionId": "c7458fb0-c348-43f8-80b5-ab1a4b30f9a7"
+  "updatedAt": "2025-11-25T21:31:19.000Z",
+  "versionId": "f10d15a8-75b1-4028-a80d-b3ac700e03ca"
 }
