@@ -1,0 +1,442 @@
+{
+  "active": true,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "RSS Read2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read5",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read6",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read7",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "RSS Read1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read3": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "RSS Read2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "RSS Read4": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "RSS Read6": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 5
+          }
+        ]
+      ]
+    },
+    "RSS Read5": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "RSS Read7": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 6
+          }
+        ]
+      ]
+    },
+    "RSS Read8": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 7
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-24T14:39:22.914Z",
+  "id": "X3L2mQJkAlZuC8GS",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "News Scrapper",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -144,
+        544
+      ],
+      "id": "fbfdd9cb-7fc8-473d-b6ee-fa83740833b7",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Here is the raw news feed for today:\n\n{{ $json[\"news aggregated\"].map(i => `STORY START\nTitle: ${i.title}\nSnippet: ${i.contentSnippet}\nSTORY END`).join('\\n\\n') }}\n\nGenerate the Briefing now.\n\nPlease summarize this according to your system instructions.",
+        "options": {
+          "systemMessage": "ROLE:\nYou are an expert Chief Editor for a daily WhatsApp News Briefing. Your goal is to organize chaotic news feeds into a clean, categorized, and professional summary that maximizes information coverage.\n\nFORMATTING RULES (Crucial for WhatsApp):\n1. Use single asterisks for bolding (e.g., *Headline*), NOT double asterisks.\n2. Use standard hyphens (-) for bullet points.\n3. Put a single blank line between items within the same category to keep them distinct.\n4. Put a DOUBLE blank line between different major categories to separate sections.\n\nINSTRUCTIONS:\n1. **Analyze & Sort:** Read all input items. Group them mentally into logical categories (e.g., 🇪🇬 EGYPT, 🌍 WORLD, 💰 BUSINESS, 💻 TECH, ⚽ SPORTS).\n2. **Coverage (Crucial):** Aim to include almost EVERY distinct story provided in the input. Do not over-compress. If you have 20 unique stories, output 20 items.\n3. **Output Structure:**\n   - **Category Header:** Start with the Emoji and Category Name in bold (e.g., *🇪🇬 EGYPT & REGION*).\n   - **Items:** List all stories for that category underneath.\n   - **Item Format:** Use a hyphen, then a *Bold Mini-Headline* (3-5 words), followed by a clear 1-sentence summary.\n\nFEW-SHOT EXAMPLE (How it must look):\n\nInput:\n(List of mixed articles about Egypt, Apple, Inflation, and Football)\n\nOutput:\n🇪🇬 *EGYPT & REGION*\n- *Election Kickoff* - The National Election Authority announced voting dates for the upcoming presidential election.\n\n- *Gaza Mediation* - Foreign Minister Shoukry met with UN officials to discuss the Gaza humanitarian corridor.\n\n💰 *ECONOMY*\n- *Rates Hike* - The Central Bank raised interest rates by 100bps to combat rising inflation.\n\n- *Gold Record* - Gold prices hit a record high of 3000 EGP per gram locally due to currency fluctuation.\n\n💻 *TECH & SCIENCE*\n- *iPhone 16 Launch* - Apple unveiled the iPhone 16 with new holographic capabilities at their Cupertino event.\n\n- *Starlink Success* - SpaceX successfully launched 20 new Starlink satellites into orbit.\n\n⚽ *SPORTS*\n- *Liverpool Win* - Liverpool defeated Everton 2-0 in the Merseyside derby with goals from Salah."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        752,
+        544
+      ],
+      "id": "c1871722-1ba2-4676-8efc-27afb69680d2",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        824,
+        768
+      ],
+      "id": "c487eeae-c059-44ae-b2ef-b1a58478f7af",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "RHvwbyYLj6xD250i",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "moatazahmedsamir135@gmail.com",
+        "subject": "News of the day",
+        "emailType": "text",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1104,
+        544
+      ],
+      "id": "08a049e8-4e58-4d21-b1a3-dd72188ed4a8",
+      "name": "Send a message",
+      "webhookId": "b5755196-9bf3-4071-aa0d-20dc743606a0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0naCbfmZQrJH2in7",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "=news aggregated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        528,
+        544
+      ],
+      "id": "80c10843-f2b3-4946-a87d-e7fed9c51775",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "url": "https://www.dailynewsegypt.com/feed/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        -128
+      ],
+      "id": "f694f544-182c-4f0a-abb3-7fee6eff192c",
+      "name": "RSS Read1"
+    },
+    {
+      "parameters": {
+        "numberInputs": 8
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        304,
+        448
+      ],
+      "id": "7b2c33ee-8c73-4e27-9aa4-9b9cab0affd8",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        256
+      ],
+      "id": "e02656ea-c9e5-4891-af7c-de0920be0cdd",
+      "name": "RSS Read3"
+    },
+    {
+      "parameters": {
+        "url": "http://feeds.bbci.co.uk/news/world/rss.xml",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        64
+      ],
+      "id": "43604f05-7a52-4332-8395-5486ec0c06e3",
+      "name": "RSS Read2"
+    },
+    {
+      "parameters": {
+        "url": "http://www.theguardian.com/rss",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        448
+      ],
+      "id": "a39ee2ee-32ee-4a52-9f60-f240f4033f79",
+      "name": "RSS Read4"
+    },
+    {
+      "parameters": {
+        "url": "https://techcrunch.com/feed/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        832
+      ],
+      "id": "e2ee203a-0f8d-460e-96ce-d49d314707bd",
+      "name": "RSS Read6"
+    },
+    {
+      "parameters": {
+        "url": "https://www.theverge.com/rss/index.xml",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        640
+      ],
+      "id": "8e26a499-b982-4aaf-bf58-3956802d3c8f",
+      "name": "RSS Read5"
+    },
+    {
+      "parameters": {
+        "url": "http://feeds.wired.com/wired/index",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        1024
+      ],
+      "id": "6b4749c2-2140-4845-94c2-95862a546717",
+      "name": "RSS Read7"
+    },
+    {
+      "parameters": {
+        "url": "http://www.newyorker.com/feed/humor",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        1216
+      ],
+      "id": "0c7de99e-004f-4eb5-a41e-729b091b76a6",
+      "name": "RSS Read8"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backups",
+  "repo_owner": "Mezo-555",
+  "repo_path": "workflows/",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-24T14:39:22.929Z",
+      "createdAt": "2025-11-24T14:39:22.929Z",
+      "role": "workflow:owner",
+      "workflowId": "X3L2mQJkAlZuC8GS",
+      "projectId": "TXusVfb2hY9oL24m"
+    }
+  ],
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-25T19:03:34.000Z",
+  "versionId": "f52dec2f-337f-467a-b4b6-a7dedd6a74ed"
+}
