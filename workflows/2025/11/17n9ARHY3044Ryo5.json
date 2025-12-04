@@ -1,0 +1,1037 @@
+{
+  "active": false,
+  "connections": {
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Menu": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Get Audio URL",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Text Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Audio URL": {
+      "main": [
+        [
+          {
+            "node": "Download Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Audio": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording": {
+      "main": [
+        [
+          {
+            "node": "Audio Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Audio Prompt": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Text Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Prompt": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tables": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cancel Reservation": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cancel Order": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Reservations": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Order": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Order": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Reservation": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-29T12:03:29.962Z",
+  "id": "17n9ARHY3044Ryo5",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {
+          "messageStatusUpdates": []
+        }
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        320
+      ],
+      "id": "fcb0a325-82ee-44c9-a3b3-1e2a75e27f7e",
+      "name": "WhatsApp Trigger",
+      "webhookId": "9106292b-a3ab-4eca-b5c6-061d137e62b9",
+      "retryOnFail": true,
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "cLzelZyqJyCJeg1w",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "options": {
+          "systemMessage": "=You are a restaurant agent for \"\" restaurant.\n\nLanguage & Tone:\n- Speak in professional, friendly Egyptian Arabic.\n- Polite, warm, helpful, natural.\n- Avoid overly casual slang.\n- Vary phrasing naturally to avoid robotic repetition.\n- Speak in Egyptian Arabic not Standard Arabic.\n- For mobile numbers, transform this format 201026308612 into this 01026308612 (remove the first 2)\n\n-ABSOLUTELY CRITICAL - OUTPUT RULE:\nYou MUST output ONLY the final message to the user in Egyptian Arabic.\nNEVER output any of these under any circumstances:\n- [Used tools: ...]\n- Tool results\n- Input/Output data\n- JSON\n- Any metadata\n- Internal reasoning\n- NEVER include tool information in your response.\n- When asked about reservations, ALWAYS call the Get Reservations tool to get updated data.\n\nYour responses must ONLY contain the message for the customer in Egyptian Arabic.\nIf a tool is used, only show the result, never mention [Used tools], Input, or Result.\nKeep responses natural and helpful.\n\nIf you use a tool, only respond with the final answer, nothing else.\n\n\nTime Reference:\n- Current Time: {{ $now }}\n- Today: {{ $today }}\n\nIf the variable {{ $('WhatsApp Trigger').item.json.messages[0].type }} equals \"audio\":\n  - Do not include emojis in your response or any characters or symbols other than text, and don't spell or read out any symbol or charcter, ignore them when reading.\n\nFor Google Sheets:\n- Output only the data that matches the sheet columns.\n- Do not include any other text or tool metadata.\n\nDo NOT include JSON in the message.\nNEVER include: [Used tools], Tool logs, Input, Result, any JSON, internal reasoning, system messages, or metadata.\n\nWhen outputting the result of a tool, output only the confirmation message text. Do not include any JSON, tool names, or metadata. The output must be plain text only.\n\n\n1- Welcoming Message Style\n* First message shuold follow this style (with natural variation, not fixed wording):\n    1. Warm, polite greeting in Egyptian Arabic.\n    2. Short self-introduction as the assistant of “السلطان أيوب”.\n    3. Briefly state you can help with:\n        * Menu inquiries\n        * Placing orders\n        * Table reservations\n    4. End with a call to action (e.g.,  “أقدر أساعدك ازاي النهاردة؟”).\n    5. If the first message was a question, answer the question politely, not just welcoming.\n    6. when the user wants to order, just ask politely what do they want, not what category they want\n    7- If a tool is required, call it immediately.\nNEVER just say “I will check,” “I will do that,” “One moment,” or anything similar instead of actually calling the tool.\nIf an action is needed, you MUST call the needed tool.\n\n2- Tools & Usage\n\n--Menu--\n* Returns categories, items, prices, availability, descriptions.\n* Rules:\n    * CALL Menu before answering any menu-related question.\n    * Use only data returned by Menu.\n    * Never invent items, prices, or categories.\n\n\n--Add Order--\n* Append confirmed orders.\n* After final confirmation from customer, append one row with these columns (in this order): \nالاسم, رقم_الموبايل, العنوان, الاوردر, المبلغ، ملاحظات\nand inform the user with the order number (do not add or modify anything in the first column which is رقم الاوردر)\n* رقم الاوردر is automatically added by google sheet, do not modify it, you’ll need this number when the customer wants to cancel the order\n\n* If the user wanted to add any note, add it in the ملاحظات column, do not add excatly what the cusutom said word for word, just add the meaning(Ex: مش عايز اكل سبايسي should be لا يفضل السبايسي)\n\n\n--Get Reservations--\n\n* Main reference for table availability.\n* Columns:\n الاسم، تاريخ_الحجز، الساعة، رقم_الطاولة\n* Use this to check which tables are booked.\n* رقم الحجز is automatically added by google sheet, do not modify it, you’ll need this number when the customer wants to cancel the reservation \n\n--Add Reservation--\n* When reservation is confirmed, append a new row in Reservations sheet with all the details.\n\n\n--Tables--\n* Retrieve all tables and their capacities (رقم الطاولة، عدد الاشخاص) using Tables tool.\n* Used to find which table fits the user’s party size.\n\n--User Calendar--\n* Add confirmed reservations to user’s personal calendar.\n* Steps:\n    1. Check requested date & time for conflicts in the user calendar.\n    2. If free → add event with: Customer Name, Phone, Party Size, Date, Time, Table Number and give the event a suitable name\n    3. If conflict → inform user and suggest nearest available time that is also free in restaurant (use the reservation steps).\n\n--Cancel Reservation:--\n* Delete a reservation by رقم_الحجز .\n* You should ask for رقم_الحجز to identify the row.\n* Use Get Reservations tool to find it, then use Cancel Order tool.\n\nCancel Order:\n* Delete a reservation by  رقم_الاوردر.\n* You should ask for رقم الاوردر_to identify the row.\n* Use Get Order tool to find it, then use Cancel Order tool.\n\n3- Menu Handling\n\n1. When user asks about menu/availability:\n    * Call Menu tool first.\n    * List discrete categories only (in Menu sheet نوع) in professional Egyptian Arabic. (eg: ….،عندنا بيتزا، برجر)\n    * Ask politely which category the user wants to explore.\n2. When a category is selected:\n    * List items in that category (only available ones, that is التوفر column is متوفر): -[Item]: [Description] | [Price EGP]\n3. Drill down naturally until user finds the item.\n4. Out-of-stock handling (التوفر column):\n    * Apologize politely and suggest the available items from the same category (never invent items).\n\n4- Order Taking\n\n* Collect information conversationally in Egyptian Arabic:\n    1. Items + quantities\n    2. Full name\n    3. Delivery address\n    4. Phone number\n- After you confirmed the order, no need to say all the details again.\n\nWhen requesting the customer’s phone number, first ask politely if you should use the WhatsApp number you are communicating with, no need to say the number out loud.\n\nIf the customer agrees, use the phone number: {{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}\nOnly ask them to provide a different number if they prefer to use another one. Do not read the number to confirm, just confirm that you will use number you are communicating with.\n\nIf the variable {{ $('WhatsApp Trigger').item.json.messages[0].type }} equals \"audio\":\nWhen confriming the order, and saying the details, read the numbers one by one (Ex: 123, should be read: one, two, three)\n\n* Polite guidance is required.\n\n--Final Confirmation--\n* Once all info is collected:\n    * Send structured summary:  تأكيد الاوردر:\n     -الاسم: [CustomerName]\n     -رقم الموبايل: [Phone]\n     -العنوان: [Address]\n     -الاوردر: [Item x qty — price] ...\n     -الاجمالي: [Total Price]\n\nthe Orders sheet column names: [\n\"رقم_الاوردر\",\n\"رقم_الموبايل\",\n  \"الاسم\",\n  \"العنوان\",\n  \"الاوردر\",\n  \"المبلغ\",\n  \"ملاحظات\"\n}\nDO NOT ADD ANY OTHER COLUMNS THAN THESE\n\n    * Ask user to confirm.\n    * If confirmed:\n        * Append Orders sheet\n        * Thank the customer warmly for using the “” restaurant and wish them a happy meal in Egyptian style.\n        - Tell them the order number (it should be added automatically in رقم الاوردر, take a look there using Get Order and tell it to the user), it's the first column in the row.\n\n5- Reservation Steps\n\n1. Ask for:\n    * التاريخ\n    * Time slot (1-hour fixed, starting on the hour, e.g., 12, 1, 2) Using 12-hour format only.\n    * عدد الاشخاص\n2. Retrieve:\n    * Get Reservations Tool → all current reservations\n    * Tables Tool → table IDs & capacities\n3. Check availability:\n    * Filter Reservations Sheet for requested date & time\n    * Compare against Tables Sheet to find tables that fit party size\n4. Suggest options:\n    * If suitable table → propose the table with minimum capacity required\n    * If none → inform the user that no table is available at that time and suggest nearest available alternative times\n\n5. Confirm reservation:\nWhen creating a reservation, you MUST:\n-Call Get Reservations first\nLook at the existing رقم_الحجز values (like R-001, R-002, etc.)\nGenerate the NEXT number (if highest is R-005, generate R-006)\nCall Add Reservation and add EXACTLY these fields in a new row:\n   - رقم_الحجز [the generated number like R-006]\n   - الاسم\n   - رقم_الموبايل\n   - تاريخ_الحجز\n   - الساعة(12 hour format)\n   - رقم_الطاولة\n-When calling Add Reservation tool, ALWAYS include رقم_الحجز in the data \n    * Append row to Reservations Sheet using Add Reservation tool\n- Do not say that the reservation numnber is automatically given, just tell the user the reservation number after confirming the reservation, it's the first column in the row.\n- The columns to add in Reservations sheet: ['رقم_الحجز'\n'الاسم' ,\n'رقم_الموبايل', 'تاريخ_الحجز', 'الساعة', 'رقم الطاولة']\n[DO NOT ADD ANY OTHER COLUMNS THAN THESE]\n- When there is a multiple tables available, do not ask the user which one to choose, just choose the one with minimum ID(رقم_الطاولة)\n\n\n6. Add reservation to User Calendar:\n    * Check calendar for conflicts\n    * If conflict → inform user and suggest alternative times that are also free in restaurant (use the reservation steps above)\n    * If no conflict → add event and confirm by sending the reservation number \nTell them the order number (it should be added automatically in رقم الحجز, take a look there using Get Reservations and tell it to the user)\n 7-If the user wants to update a reservation (ex, change the number of persons, or the time) check all the steps above for conflicts and change accordingly using Reservation tool and reply with confirmation and reservation number.\n\nOrder Cancellation\n* If user wants to cancel an order:\n    1. Ask for رقم الاوردر.\n    2. If found → delete row using Cancel Order tool.\n    3. If not found → politely inform user that no reservation/order matches.\n\nReservation Cancellation\n* If user wants to cancel an order:\n    1. Ask for رقم الحجز.\n    2. If found → delete row using Cancel Reservation tool.\n    3. If not found → politely inform user that no reservation/order matches.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        544,
+        336
+      ],
+      "id": "ef67a49a-8c72-47d8-a213-ddb543a6433b",
+      "name": "AI Agent",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Switch').item.json.contacts[0].wa_id }}",
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        560
+      ],
+      "id": "ac8b55e3-8a1c-43e9-b0fc-a316c1d2cca5",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Retrieve restaurant menu items, categories, prices, and availability. Use this to show customers what food is available.",
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y",
+          "mode": "list",
+          "cachedResultName": "Menu",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        352,
+        560
+      ],
+      "id": "0c50d6fd-b5c3-40f5-b0c5-65f6f8534b40",
+      "name": "Menu",
+      "credentials": {
+        "googleApi": {
+          "id": "ojbnSZqN3MPqQA9g",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.messages[0].audio }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "edbb8606-23ac-4047-8636-96bad9b0d789"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a820677c-c687-4503-af90-1adaf2c89e22",
+                    "leftValue": "={{ $json.messages[0].text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Text"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        16,
+        320
+      ],
+      "id": "61b41162-9788-48f0-bbc8-45753f4a406a",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "media",
+        "operation": "mediaUrlGet",
+        "mediaGetId": "={{ $('WhatsApp Trigger').item.json.messages[0].audio.id }}"
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        64
+      ],
+      "id": "53ded252-2cc8-4088-9df2-6af84091a9d1",
+      "name": "Get Audio URL",
+      "webhookId": "e99c92d0-285a-41f8-b267-f4ac85999d91",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "xBhT2ho0PEfSajpf",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        416,
+        64
+      ],
+      "id": "d1a2e90c-b8e1-439b-9f13-512f4028d1c8",
+      "name": "Download Audio",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ItX54AEc4w9TZfug",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        624,
+        64
+      ],
+      "id": "0992462a-593c-4b7d-8bfd-9610a60ee60e",
+      "name": "Transcribe a recording",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "RHvwbyYLj6xD250i",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "364b7108-3143-45c8-b4c0-961b13b0088a",
+              "name": "text",
+              "value": "={{ $json.content.parts[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        64
+      ],
+      "id": "fb94d59d-eeeb-469a-8949-c8e86edb6744",
+      "name": "Audio Prompt"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "89049601-1980-40d0-bd7a-e9ef7ce2917a",
+              "leftValue": "={{ $('WhatsApp Trigger').item.json.messages[0].audio }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1296,
+        336
+      ],
+      "id": "e807da49-4695-43d4-a923-4327b39a7e80",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "912881698567455",
+        "recipientPhoneNumber": "={{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}",
+        "textBody": "={{ $('AI Agent').item.json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        1520,
+        464
+      ],
+      "id": "598a1565-5b82-4014-b761-86028172cf52",
+      "name": "Text Response",
+      "webhookId": "0b578c65-d117-4b10-b169-0dd47d854580",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "xBhT2ho0PEfSajpf",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "67ed0a18-cbbd-405a-b244-ab759d43ba68",
+              "name": "text",
+              "value": "={{ $json.messages[0].text.body }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        336
+      ],
+      "id": "98d5ee10-4ebb-4a59-afd3-2f38cb43bdd4",
+      "name": "Text Prompt"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Use this to find a suitable table for the customer's party size.\n",
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y",
+          "mode": "list",
+          "cachedResultName": "Menu",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1645765333,
+          "mode": "list",
+          "cachedResultName": "Tables",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y/edit#gid=1645765333"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        448,
+        560
+      ],
+      "id": "6b5b8475-083a-4237-8ee5-48fb73f1ab5b",
+      "name": "Tables",
+      "credentials": {
+        "googleApi": {
+          "id": "ojbnSZqN3MPqQA9g",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "This is the \"Cancel Reservation\" tool. Delete a reservation by its reservation number when a customer wants to cancel.",
+        "authentication": "serviceAccount",
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y",
+          "mode": "list",
+          "cachedResultName": "Menu",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1880626940,
+          "mode": "list",
+          "cachedResultName": "Reservations",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y/edit#gid=1880626940"
+        },
+        "startIndex": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start_Row_Number', ``, 'number') }}",
+        "numberToDelete": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Number_of_Rows_to_Delete', ``, 'number') }}"
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        880,
+        528
+      ],
+      "id": "d7a631a3-364f-4354-8db2-e828d932f042",
+      "name": "Cancel Reservation",
+      "credentials": {
+        "googleApi": {
+          "id": "ojbnSZqN3MPqQA9g",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        128,
+        544
+      ],
+      "id": "df488f08-3df8-4a15-8c1b-d03ced71bcdc",
+      "name": "Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "RHvwbyYLj6xD250i",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "This is the \"Cancel Order\" tool. Delete an order by its order number when a customer wants to cancel their order.",
+        "authentication": "serviceAccount",
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y",
+          "mode": "list",
+          "cachedResultName": "Menu",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1395154170,
+          "mode": "list",
+          "cachedResultName": "Orders",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y/edit#gid=1395154170"
+        },
+        "startIndex": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start_Row_Number', ``, 'number') }}",
+        "numberToDelete": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Number_of_Rows_to_Delete', ``, 'number') }}"
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        1088,
+        480
+      ],
+      "id": "ab1bff5b-a656-4685-9fa4-2fb4def9ba37",
+      "name": "Cancel Order",
+      "credentials": {
+        "googleApi": {
+          "id": "ojbnSZqN3MPqQA9g",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Check all current table reservations to see which tables are booked and at what times. Use this to find available tables. Dont show others reservations to your client.",
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y",
+          "mode": "list",
+          "cachedResultName": "Menu",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1880626940,
+          "mode": "list",
+          "cachedResultName": "Reservations",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y/edit#gid=1880626940"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        768,
+        544
+      ],
+      "id": "39c37259-4473-474b-b91e-b724085c4e68",
+      "name": "Get Reservations",
+      "credentials": {
+        "googleApi": {
+          "id": "ojbnSZqN3MPqQA9g",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Look up an existing order by order number to retrieve order details or verify order information.",
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y",
+          "mode": "list",
+          "cachedResultName": "Menu",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1395154170,
+          "mode": "list",
+          "cachedResultName": "Orders",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y/edit#gid=1395154170"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        992,
+        496
+      ],
+      "id": "09367628-bb5b-4eec-9724-026e1e69ef3f",
+      "name": "Get Order",
+      "credentials": {
+        "googleApi": {
+          "id": "ojbnSZqN3MPqQA9g",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Create a new food order after customer confirmation. Records customer name, phone, address, items ordered, total price, and any special notes.",
+        "authentication": "serviceAccount",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y",
+          "mode": "list",
+          "cachedResultName": "Menu",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1395154170,
+          "mode": "list",
+          "cachedResultName": "Orders",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y/edit#gid=1395154170"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "الاسم": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('_____', ``, 'string') }}",
+            "رقم_الموبايل": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('____________', ``, 'string') }}",
+            "العنوان": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('_______', ``, 'string') }}",
+            "الاوردر": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('_______', ``, 'string') }}",
+            "المبلغ": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('______', ``, 'string') }}",
+            "ملاحظات": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('_______', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "رقم الاوردر",
+              "displayName": "رقم الاوردر",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "الاسم",
+              "displayName": "الاسم",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "رقم_الموبايل",
+              "displayName": "رقم_الموبايل",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "العنوان",
+              "displayName": "العنوان",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "الاوردر",
+              "displayName": "الاوردر",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "المبلغ",
+              "displayName": "المبلغ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ملاحظات",
+              "displayName": "ملاحظات",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "text",
+              "displayName": "text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "toolCallId",
+              "displayName": "toolCallId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        544,
+        560
+      ],
+      "id": "69b0e516-edbc-4b73-af57-38d60e42ebcd",
+      "name": "Add Order",
+      "credentials": {
+        "googleApi": {
+          "id": "ojbnSZqN3MPqQA9g",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Create a new reservation after availability is confirmed. Records customer name, phone, reservation date, time, and table number. \nNEVER ADD THESE COLUMNS: text, and toolCallId\n",
+        "authentication": "serviceAccount",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y",
+          "mode": "list",
+          "cachedResultName": "Menu",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1880626940,
+          "mode": "list",
+          "cachedResultName": "Reservations",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NapO0LLsjueHc7_8KUo8vWtEuO9LG6OWgo8DHG-tL_Y/edit#gid=1880626940"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "رقم الحجز",
+              "displayName": "رقم الحجز",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "الاسم",
+              "displayName": "الاسم",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "رقم_الموبايل",
+              "displayName": "رقم_الموبايل",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "تاريخ_الحجز",
+              "displayName": "تاريخ_الحجز",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "الساعة",
+              "displayName": "الساعة",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "رقم_الطاولة",
+              "displayName": "رقم_الطاولة",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "handlingExtraData": "ignoreIt"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        656,
+        560
+      ],
+      "id": "956872ad-abfb-4f32-bf42-92d1d373db29",
+      "name": "Add Reservation",
+      "credentials": {
+        "googleApi": {
+          "id": "ojbnSZqN3MPqQA9g",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backups",
+  "repo_owner": "Mezo-555",
+  "repo_path": "workflows/",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-29T12:03:29.984Z",
+      "createdAt": "2025-11-29T12:03:29.984Z",
+      "role": "workflow:owner",
+      "workflowId": "17n9ARHY3044Ryo5",
+      "projectId": "TXusVfb2hY9oL24m"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-04T18:03:08.000Z",
+  "versionId": "49eab9d4-5e17-4a83-8a7a-0f4fe8e5b9c3"
+}
