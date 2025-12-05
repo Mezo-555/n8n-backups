@@ -351,7 +351,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1552,
+        1568,
         208
       ],
       "id": "527d575b-f9e3-45d7-8abf-d8dbb3fbdb9e",
@@ -2526,6 +2526,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-12-05T18:17:52.000Z",
-  "versionId": "e3100422-81e3-4f62-bd17-8e7217bcc8d5"
+  "updatedAt": "2025-12-05T20:00:51.000Z",
+  "versionId": "ba9b8b7c-7d7f-4c4e-9e86-f6d284717d6e"
 }
