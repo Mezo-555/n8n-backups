@@ -225,7 +225,7 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "name": "My workflow",
+  "name": "Test Restaurant Agent",
   "nodes": [
     {
       "parameters": {
@@ -1032,6 +1032,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-12-04T18:03:08.000Z",
-  "versionId": "49eab9d4-5e17-4a83-8a7a-0f4fe8e5b9c3"
+  "updatedAt": "2025-12-05T10:20:08.000Z",
+  "versionId": "2969644b-fb90-4aa6-94a9-5eb309bec283"
 }
