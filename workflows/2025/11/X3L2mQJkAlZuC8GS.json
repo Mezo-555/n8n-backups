@@ -72,7 +72,7 @@
       "main": [
         [
           {
-            "node": "Send a message",
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
@@ -226,6 +226,17 @@
           }
         ]
       ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-11-24T14:39:22.914Z",
@@ -250,7 +261,7 @@
       "typeVersion": 1.2,
       "position": [
         -144,
-        760
+        768
       ],
       "id": "fbfdd9cb-7fc8-473d-b6ee-fa83740833b7",
       "name": "Schedule Trigger"
@@ -280,7 +291,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1048,
+        1056,
         1056
       ],
       "id": "c487eeae-c059-44ae-b2ef-b1a58478f7af",
@@ -303,7 +314,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        1328,
+        1568,
         832
       ],
       "id": "08a049e8-4e58-4d21-b1a3-dd72188ed4a8",
@@ -507,9 +518,42 @@
       ],
       "id": "dd17775a-d4e4-42db-bbf4-32571bcd37b0",
       "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://tts-service:5050/speak",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"text\": \"Hello world\",\n  \"voice\": \"en-US-AriaNeural\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "audio"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1296,
+        832
+      ],
+      "id": "99c6bc73-82a3-4e49-9283-acc8da703303",
+      "name": "HTTP Request"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "AI Agent": [
+      {
+        "json": {
+          "output": "🌤️ Alexandria Status: Clear Sky, 19°C | 💵 USD: 47.57 EGP\n\n*🇪🇬 EGYPT & REGION*\n- *Bank of the Year* - Commercial International Bank (CIB) won The Banker’s 2025 award for Egypt, driven by its factoring portfolio which exceeded EGP 4 billion.\n\n- *Waste Sector Reforms* - The ministries of Local Development and Finance are coordinating to address funding gaps in the waste management system and bolster local governance.\n\n- *Bulgaria Economic Pact* - Egypt and Bulgaria signed a protocol to enhance cooperation across 19 sectors, including renewable energy and industry, ahead of their diplomatic centenary.\n\n- *Stock Market Tax Change* - The government plans to replace the capital gains tax with a stamp duty to stimulate institutional investment in the Egyptian stock exchange.\n\n- *Optimism on IMF Talks* - Prime Minister Madbouly expressed optimism about talks with the IMF, stating that some key economic indicators have surpassed their targets.\n\n- *Rafah Crossing Denial* - Egypt's State Information Service denied any coordination with Israel to reopen the Rafah crossing, refuting Israeli claims of an agreement.\n\n- *Mining Investment Talks* - The Petroleum Minister met with global mining leader AngloGold Ashanti in London to discuss expanding investments in Egypt.\n\n- *Volkswagen Manufacturing Plan* - The Minister of Industry held talks with Volkswagen's CEO to discuss a multi-stage plan for the company to begin manufacturing cars in Egypt.\n\n- *Egypt-Greece Trade Growth* - GAFI announced that trade between Egypt and Greece has reached $2 billion, with over 200 Greek companies now operating in the Egyptian market.\n\n- *UNIDO ICT Initiative* - UNIDO and its partners are expanding Egypt's Circular ICT Initiative, which promotes sustainability in the technology sector, and have unveiled a new partnership strategy.\n\n- *Gaza Militia Leader Killed* - Prominent anti-Hamas militia leader Yasser Abu Shabab was reportedly shot and killed while attempting to resolve a family dispute in Gaza.\n\n- *Gaza Heritage Recovery* - Palestinians have begun recovery work at war-damaged archaeological and heritage sites in Gaza, though efforts are hampered by Israeli restrictions on materials.\n\n- *Hostage's Body Returned* - The body of Ran Gvili, the last Israeli hostage whose remains were held in Gaza, was returned by Hamas, as confirmed by his parents.\n\n- *Israel Strikes Lebanon* - The Israeli military struck Hezbollah sites in southern Lebanon less than 24 hours after rare, direct talks were held between civilian envoys from both nations.\n\n*🌍 WORLD*\n- *Germany Okays Military Service* - German MPs have approved a plan for voluntary military service which involves screening all 18-year-old men for suitability, falling short of full conscription.\n\n- *Russia-India Fuel Supply* - President Putin stated that Russia is prepared to supply India with \"uninterrupted\" fuel and signed new deals on civil nuclear energy during his visit.\n\n- *Trump Hails Africa Peace Deal* - US President Trump praised a \"historic\" peace deal between the DR Congo and Rwanda, hoping it will pave the way for American investment.\n\n- *Ireland to Boycott Eurovision* - Ireland is among several countries boycotting the 2026 Eurovision Song Contest after Israel was cleared to compete despite calls for its exclusion.\n\n- *Eritreans Freed Without Trial* - Thirteen Eritreans, including Olympian cyclist Zeragaber Gebrehiwot, have been freed from a notorious jail after being held for 18 years without trial.\n\n- *Faroe Islands Scraps Abortion Law* - Politicians in the self-governing Danish territory voted to overturn one of Europe's strictest abortion laws, which had banned the procedure in most cases.\n\n- *US-Kenya Health Deal* - Kenya has signed a landmark health deal with the US, becoming the first African nation to secure such funding since cuts were made to foreign aid.\n\n- *UK-EU Youth Mobility Plan* - The UK is aiming to secure a youth mobility scheme with the EU by the end of 2026, which would allow tens of thousands of young people to live and work abroad.\n\n- *Labour's Child Poverty Strategy* - The UK Labour party has launched a new child poverty strategy, which includes abolishing the two-child benefit limit to lift 550,000 children out of poverty.\n\n- *Trump Admin on Europe* - A US National Security Strategy document claims Europe faces \"civilisational erasure\" and states the US must support resistance to the continent's current trajectory.\n\n- *Shinzo Abe's Killer Apologises* - Tetsuya Yamagami, the man who assassinated former Japanese Prime Minister Shinzo Abe, apologised to his family during his trial.\n\n- *Israel's Conscription Crisis* - Israeli lawmakers are considering a controversial draft bill that would end the military service exemption for ultra-Orthodox men studying full-time in religious institutions.\n\n- *Ukraine Corruption Issues* - A Times investigation found that President Zelensky’s administration removed oversight guardrails, allowing corruption in Ukraine to fester.\n\n- *Cocaine Trade Surges* - As the US prioritized combating fentanyl, cocaine trafficking has surged, causing widespread criminal havoc, particularly in Ecuador.\n\n*💰 BUSINESS & ECONOMY*\n- *Netflix Buys Warner Bros.* - In a landmark $82.7 billion deal, Netflix has agreed to acquire Warner Bros Discovery, gaining control of franchises like Harry Potter and HBO shows like Game of Thrones.\n\n- *CIB Named Top Bank* - Commercial International Bank (CIB) has been named Egypt's Bank of the Year for 2025 by The Banker, with its factoring portfolio hitting EGP 4 billion.\n\n- *Stellantis Defaults in Canada* - Canada claims automaker Stellantis is in default on contracts after moving Jeep production from Ontario to the US to reportedly please President Trump.\n\n- *Jamie Oliver Revives Restaurant* - Celebrity chef Jamie Oliver is relaunching his 'Jamie's Italian' restaurant chain in the UK, starting in London, six years after its collapse.\n\n- *BP Cuts Staff Benefits* - BP is scrapping paid rest breaks and most bank holiday bonuses for 5,400 forecourt staff to offset a planned rise in the independent living wage.\n\n- *UK Property Market* - Halifax data shows UK first-time buyers are in the best position in a decade, even as the average house price hit a record £299,892 in November.\n\n- *Fabergé Egg Auction Record* - A rare Fabergé Winter Egg sold for a record $30 million at auction, and in a separate incident, New Zealand police recovered a stolen $19k Fabergé egg swallowed by a thief.\n\n- *HSA Bank Acquires SecureSave* - HSA Bank has acquired fintech startup SecureSave, co-founded by Suze Orman, which provides employee savings solutions.\n\n- *Amazon Settles Labor Claims* - Amazon will pay $3.7 million to settle claims in Seattle related to alleged violations of the city's gig worker ordinance, affecting over 10,000 workers.\n\n*💻 TECH & SCIENCE*\n- *Newspaper Sues Perplexity AI* - The New York Times and the Chicago Tribune have filed lawsuits against AI startup Perplexity, alleging illegal copying and copyright infringement of millions of articles.\n\n- *Meta's News Deals* - Meta has signed commercial agreements with several major publishers, including CNN and Fox News, to provide real-time news content on its Meta AI platform.\n\n- *EU Fines X (Twitter)* - The EU has issued its first DSA penalty, fining X €120 million for its \"deceptive\" blue check verification system that allows anyone to purchase the formerly verified symbol.\n\n- *Australia's Social Media Ban* - Australia is implementing a world-first law banning social media access for children under 16, sparking debate on its effectiveness and impact on teen influencers.\n\n- *AWS Pitches AI Future* - At its re:Invent conference, Amazon Web Services unveiled a suite of new AI tools, including \"frontier agents\" for complex tasks, though enterprise customer readiness is questioned.\n\n- *Deep-Sea Mining Impact* - A new study by scientists reveals that deep-sea mining tests have an impact on over a third of seabed animals, adding to the environmental debate.\n\n- *OpenAI's 'Code Red' Response* - Following competition from Google's Gemini 3, OpenAI is reportedly preparing to release its GPT-5.2 model as early as next week.\n\n- *Pixel Phones as Webcams* - A recent update now allows Google Pixel phones to be used directly as a webcam for the Nintendo Switch 2 console without needing extra hardware.\n\n- *Bill Gates-Backed Nuclear Plant* - TerraPower, backed by Bill Gates, has received a key safety approval from the US Nuclear Regulatory Commission for the construction of its first next-generation nuclear reactor.\n\n*⚽ SPORTS*\n- *Trump Awarded FIFA Prize* - Donald Trump received the inaugural FIFA Peace Prize at the World Cup 2026 draw, an award presented by FIFA President Gianni Infantino.\n\n- *World Cup 2026 Draw* - The draw for the 2026 World Cup has been made, with England set to face Croatia and the USA to play Australia in the group stages.\n\n- *Brighton Owner Betting Claims* - Brighton owner Tony Bloom is facing questions over allegations in a US legal case that he was an anonymous gambler who won $70 million, allegedly including bets on his own teams.\n\n- *McLaren to Use Team Orders* - McLaren has confirmed it will use team orders if necessary in the F1 season finale in Abu Dhabi to secure the drivers' championship for either Lando Norris or Oscar Piastri."
+        }
+      }
+    ]
+  },
   "repo_name": "n8n-backups",
   "repo_owner": "Mezo-555",
   "repo_path": "workflows/",
@@ -532,6 +576,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-12-04T19:13:50.000Z",
-  "versionId": "4a5a2d96-aa44-41d6-8c3d-1e7be562fe56"
+  "updatedAt": "2025-12-05T19:59:55.000Z",
+  "versionId": "533cd526-4a49-4f54-a6bc-3c475d5eaa35"
 }
