@@ -43,6 +43,16 @@
             "node": "RSS Read8",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Get weather",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Exchange Rate",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -73,7 +83,7 @@
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "Merge1",
             "type": "main",
             "index": 0
           }
@@ -183,6 +193,39 @@
           }
         ]
       ]
+    },
+    "Get weather": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Exchange Rate": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-11-24T14:39:22.914Z",
@@ -207,7 +250,7 @@
       "typeVersion": 1.2,
       "position": [
         -144,
-        544
+        760
       ],
       "id": "fbfdd9cb-7fc8-473d-b6ee-fa83740833b7",
       "name": "Schedule Trigger"
@@ -215,16 +258,16 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Here is the raw news feed for today:\n\n{{ $json[\"news aggregated\"].map(i => `STORY START\nTitle: ${i.title}\nSnippet: ${i.contentSnippet}\nSTORY END`).join('\\n\\n') }}\n\nGenerate the Briefing now.\n\nPlease summarize this according to your system instructions.",
+        "text": "=Here is the raw news feed for today:\n\nDate: {{ $now.format('MMMM DD, YYYY') }}\n\nWeather Data: Temp is {{ $json[\"current\"][\"temperature_2m\"] }}°C. The WMO Weather Code is {{ $json[\"current\"][\"weather_code\"] }}.\n\nCurrency Data: 1 USD = {{ $json[\"rates\"][\"EGP\"] }} EGP.\n\n{{ $json[\"news aggregated\"].map(i => `STORY START\nTitle: ${i.title}\nSnippet: ${i.contentSnippet}\nSTORY END`).join('\\n\\n') }}\n\nGenerate the Briefing now.\n\nPlease summarize this according to your system instructions.",
         "options": {
-          "systemMessage": "ROLE:\nYou are an expert Chief Editor for a daily WhatsApp News Briefing. Your goal is to organize chaotic news feeds into a clean, categorized, and professional summary that maximizes information coverage.\n\nFORMATTING RULES (Crucial for WhatsApp):\n1. Use single asterisks for bolding (e.g., *Headline*), NOT double asterisks.\n2. Use standard hyphens (-) for bullet points.\n3. Put a single blank line between items within the same category to keep them distinct.\n4. Put a DOUBLE blank line between different major categories to separate sections.\n\nINSTRUCTIONS:\n1. **Analyze & Sort:** Read all input items. Group them mentally into logical categories (e.g., 🇪🇬 EGYPT, 🌍 WORLD, 💰 BUSINESS, 💻 TECH, ⚽ SPORTS).\n2. **Coverage (Crucial):** Aim to include almost EVERY distinct story provided in the input. Do not over-compress. If you have 20 unique stories, output 20 items.\n3. **Output Structure:**\n   - **Category Header:** Start with the Emoji and Category Name in bold (e.g., *🇪🇬 EGYPT & REGION*).\n   - **Items:** List all stories for that category underneath.\n   - **Item Format:** Use a hyphen, then a *Bold Mini-Headline* (3-5 words), followed by a clear 1-sentence summary.\n\nFEW-SHOT EXAMPLE (How it must look):\n\nInput:\n(List of mixed articles about Egypt, Apple, Inflation, and Football)\n\nOutput:\n🇪🇬 *EGYPT & REGION*\n- *Election Kickoff* - The National Election Authority announced voting dates for the upcoming presidential election.\n\n- *Gaza Mediation* - Foreign Minister Shoukry met with UN officials to discuss the Gaza humanitarian corridor.\n\n💰 *ECONOMY*\n- *Rates Hike* - The Central Bank raised interest rates by 100bps to combat rising inflation.\n\n- *Gold Record* - Gold prices hit a record high of 3000 EGP per gram locally due to currency fluctuation.\n\n💻 *TECH & SCIENCE*\n- *iPhone 16 Launch* - Apple unveiled the iPhone 16 with new holographic capabilities at their Cupertino event.\n\n- *Starlink Success* - SpaceX successfully launched 20 new Starlink satellites into orbit.\n\n⚽ *SPORTS*\n- *Liverpool Win* - Liverpool defeated Everton 2-0 in the Merseyside derby with goals from Salah."
+          "systemMessage": "ROLE:\nYou are an expert Chief Editor for a daily WhatsApp News Briefing. Your goal is to organize chaotic news feeds into a clean, categorized, and professional summary that maximizes information coverage.\n\nFORMATTING RULES (Crucial for WhatsApp):\n1. Use single asterisks for bolding (e.g., *Headline*), NOT double asterisks.\n2. Use standard hyphens (-) for bullet points.\n3. Put a single blank line between items within the same category to keep them distinct.\n4. Put a DOUBLE blank line between different major categories to separate sections.\n\nINSTRUCTIONS:\n1. **Analyze & Sort:** Read all input items. Group them mentally into logical categories (e.g., 🇪🇬 EGYPT, 🌍 WORLD, 💰 BUSINESS, 💻 TECH, ⚽ SPORTS).\n2. **Coverage (Crucial):** Aim to include almost EVERY distinct story provided in the input. Do not over-compress. If you have 20 unique stories, output 20 items.\n3. **Output Structure:**\n   - **Category Header:** Start with the Emoji and Category Name in bold (e.g., *🇪🇬 EGYPT & REGION*).\n   - **Items:** List all stories for that category underneath.\n   - **Item Format:** Use a hyphen, then a *Bold Mini-Headline* (3-5 words), followed by a clear 1-sentence summary.\n\nDecode the Weather: You (the AI) must interpret the WMO code (e.g., 0=Clear Sky, 1-3=Cloudy, 60+=Rain).\n\nGenerate Header: Start the briefing with a structured status line: \"🌤️ Alexandria Status: [Interpreted Weather Condition], [Temp]°C | 💵 USD: [Rate] EGP\"\n\nFEW-SHOT EXAMPLE (How it must look):\n\nInput:\n(List of mixed articles about Egypt, Apple, Inflation, and Football)\n\nOutput:\n🇪🇬 *EGYPT & REGION*\n- *Election Kickoff* - The National Election Authority announced voting dates for the upcoming presidential election.\n\n- *Gaza Mediation* - Foreign Minister Shoukry met with UN officials to discuss the Gaza humanitarian corridor.\n\n💰 *ECONOMY*\n- *Rates Hike* - The Central Bank raised interest rates by 100bps to combat rising inflation.\n\n- *Gold Record* - Gold prices hit a record high of 3000 EGP per gram locally due to currency fluctuation.\n\n💻 *TECH & SCIENCE*\n- *iPhone 16 Launch* - Apple unveiled the iPhone 16 with new holographic capabilities at their Cupertino event.\n\n- *Starlink Success* - SpaceX successfully launched 20 new Starlink satellites into orbit.\n\n⚽ *SPORTS*\n- *Liverpool Win* - Liverpool defeated Everton 2-0 in the Merseyside derby with goals from Salah."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        752,
-        544
+        976,
+        832
       ],
       "id": "c1871722-1ba2-4676-8efc-27afb69680d2",
       "name": "AI Agent"
@@ -237,8 +280,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        832,
-        768
+        1048,
+        1056
       ],
       "id": "c487eeae-c059-44ae-b2ef-b1a58478f7af",
       "name": "Google Gemini Chat Model",
@@ -260,8 +303,8 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        1104,
-        544
+        1328,
+        832
       ],
       "id": "08a049e8-4e58-4d21-b1a3-dd72188ed4a8",
       "name": "Send a message",
@@ -283,7 +326,7 @@
       "typeVersion": 1,
       "position": [
         528,
-        544
+        592
       ],
       "id": "80c10843-f2b3-4946-a87d-e7fed9c51775",
       "name": "Aggregate"
@@ -300,7 +343,8 @@
         -128
       ],
       "id": "f694f544-182c-4f0a-abb3-7fee6eff192c",
-      "name": "RSS Read1"
+      "name": "RSS Read1",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -327,7 +371,8 @@
         256
       ],
       "id": "e02656ea-c9e5-4891-af7c-de0920be0cdd",
-      "name": "RSS Read3"
+      "name": "RSS Read3",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -341,7 +386,8 @@
         64
       ],
       "id": "43604f05-7a52-4332-8395-5486ec0c06e3",
-      "name": "RSS Read2"
+      "name": "RSS Read2",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -355,7 +401,8 @@
         448
       ],
       "id": "a39ee2ee-32ee-4a52-9f60-f240f4033f79",
-      "name": "RSS Read4"
+      "name": "RSS Read4",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -366,10 +413,11 @@
       "typeVersion": 1.2,
       "position": [
         80,
-        832
+        976
       ],
       "id": "e2ee203a-0f8d-460e-96ce-d49d314707bd",
-      "name": "RSS Read6"
+      "name": "RSS Read6",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -383,7 +431,8 @@
         640
       ],
       "id": "8e26a499-b982-4aaf-bf58-3956802d3c8f",
-      "name": "RSS Read5"
+      "name": "RSS Read5",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -394,24 +443,70 @@
       "typeVersion": 1.2,
       "position": [
         80,
-        1024
+        1168
       ],
       "id": "6b4749c2-2140-4845-94c2-95862a546717",
-      "name": "RSS Read7"
+      "name": "RSS Read7",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
-        "url": "https://www.wired.com/feed/rss",
+        "url": "https://www.geekwire.com/feed/",
         "options": {}
       },
       "type": "n8n-nodes-base.rssFeedRead",
       "typeVersion": 1.2,
       "position": [
         80,
-        1216
+        1456
       ],
       "id": "0c7de99e-004f-4eb5-a41e-729b091b76a6",
-      "name": "RSS Read8"
+      "name": "RSS Read8",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "url": "https://api.open-meteo.com/v1/forecast?latitude=30.0444&longitude=31.2357&current=temperature_2m,weather_code&timezone=Africa%2FCairo",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        528,
+        832
+      ],
+      "id": "579054c6-ead6-44b9-8a30-387751c1ba4f",
+      "name": "Get weather"
+    },
+    {
+      "parameters": {
+        "url": "https://open.er-api.com/v6/latest/USD",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        528,
+        1088
+      ],
+      "id": "c4f7d0b9-bb6a-4bea-974a-0ed3b8a420aa",
+      "name": "Exchange Rate"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 3,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        752,
+        816
+      ],
+      "id": "dd17775a-d4e4-42db-bbf4-32571bcd37b0",
+      "name": "Merge1"
     }
   ],
   "pinData": {},
@@ -437,6 +532,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-12-04T18:10:38.000Z",
-  "versionId": "0c87ec85-c0f5-4253-8e00-2c83faaa7393"
+  "updatedAt": "2025-12-04T19:13:50.000Z",
+  "versionId": "4a5a2d96-aa44-41d6-8c3d-1e7be562fe56"
 }
