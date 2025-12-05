@@ -1,0 +1,384 @@
+{
+  "active": false,
+  "connections": {
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "If Image/Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Media URL": {
+      "main": [
+        [
+          {
+            "node": "Download Binary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Binary": {
+      "main": [
+        [
+          {
+            "node": "If Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze an image": {
+      "main": [
+        [
+          {
+            "node": "Send description",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze video": {
+      "main": [
+        [
+          {
+            "node": "Send description",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Image/Video": {
+      "main": [
+        [
+          {
+            "node": "Get Media URL",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Image": {
+      "main": [
+        [
+          {
+            "node": "Analyze an image",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Analyze video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-05T21:16:00.557Z",
+  "id": "WWot4dbsPzcqqdHy",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "AI-powered Visual Assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {
+          "messageStatusUpdates": []
+        }
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        16
+      ],
+      "id": "9dce27f6-7b63-4818-8cb2-30115a342211",
+      "name": "WhatsApp Trigger",
+      "webhookId": "9a1b5c51-9c8d-4a9f-8e9f-3f7ff587966c",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "cLzelZyqJyCJeg1w",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v21.0/{{ $json.messages[0].image?.id || $json.messages[0].video?.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "whatsAppApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        384,
+        -80
+      ],
+      "id": "17df392c-7162-4ba8-bdef-71e8a956f2a2",
+      "name": "Get Media URL",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ItX54AEc4w9TZfug",
+          "name": "Header Auth account"
+        },
+        "whatsAppApi": {
+          "id": "xBhT2ho0PEfSajpf",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        608,
+        -80
+      ],
+      "id": "1e7a4045-a7a8-45bd-af93-5a66b3e41df7",
+      "name": "Download Binary",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Mwhoc1GhVRbHEHBK",
+          "name": "Header Auth account (Download Binary)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "text": "You are an assistant for a blind person. Describe this image/video in vivid, practical detail. Start with the most important object, then describe the surroundings, colors, and any text you see. Keep it under 3 sentences.",
+        "inputType": "binary",
+        "simplify": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        -176
+      ],
+      "id": "5186396f-3a71-4061-bb94-ab3d49effa63",
+      "name": "Analyze an image",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "RHvwbyYLj6xD250i",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "text": "You are an assistant for a blind person. Describe this image/video in vivid, practical detail. Start with the most important object, then describe the surroundings, colors, and any text you see. Keep it under 3 sentences.",
+        "inputType": "binary",
+        "simplify": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        16
+      ],
+      "id": "fb043ce0-b1d5-4a95-b7c6-663c203c8442",
+      "name": "Analyze video",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "RHvwbyYLj6xD250i",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "912881698567455",
+        "recipientPhoneNumber": "201008548242",
+        "textBody": "Please send an Image/Video.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        384,
+        112
+      ],
+      "id": "78a5c5b2-9632-466b-9b73-838140b43ba0",
+      "name": "Send message",
+      "webhookId": "a01baceb-4220-48ed-9c6e-191b1d9cc7fc",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "xBhT2ho0PEfSajpf",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "912881698567455",
+        "recipientPhoneNumber": "201008548242",
+        "textBody": "={{ $json.candidates[0].content.parts[0].text }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        1280,
+        -80
+      ],
+      "id": "9e706d96-f2fa-437e-a5af-190288617bbe",
+      "name": "Send description",
+      "webhookId": "a01baceb-4220-48ed-9c6e-191b1d9cc7fc",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "xBhT2ho0PEfSajpf",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a24e848b-9e5f-4f59-965e-b7f82ad402ac",
+              "leftValue": "={{ $json.messages[0].image }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "a82c06ef-081e-4821-ab37-6c79bafc24c9",
+              "leftValue": "={{ $json.messages[0].video }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        160,
+        16
+      ],
+      "id": "8db16a65-36fe-4c92-a23e-e3e653c85ab3",
+      "name": "If Image/Video"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a82c06ef-081e-4821-ab37-6c79bafc24c9",
+              "leftValue": "={{ $json.mime_type }}",
+              "rightValue": "image/jpeg",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        832,
+        -80
+      ],
+      "id": "77a61017-8874-4c68-9456-c60a3f3416f4",
+      "name": "If Image"
+    }
+  ],
+  "pinData": {},
+  "repo_name": "n8n-backups",
+  "repo_owner": "Mezo-555",
+  "repo_path": "workflows/",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-05T21:16:00.592Z",
+      "createdAt": "2025-12-05T21:16:00.592Z",
+      "role": "workflow:owner",
+      "workflowId": "WWot4dbsPzcqqdHy",
+      "projectId": "TXusVfb2hY9oL24m"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-05T22:23:38.000Z",
+  "versionId": "c623770d-dacb-49c2-b3fd-5b6117c77386"
+}
