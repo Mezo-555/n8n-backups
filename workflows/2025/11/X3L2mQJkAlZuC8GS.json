@@ -250,7 +250,7 @@
       "typeVersion": 1.2,
       "position": [
         -144,
-        760
+        768
       ],
       "id": "fbfdd9cb-7fc8-473d-b6ee-fa83740833b7",
       "name": "Schedule Trigger"
@@ -274,21 +274,20 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.5-pro",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1048,
+        1056,
         1056
       ],
       "id": "c487eeae-c059-44ae-b2ef-b1a58478f7af",
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
-          "id": "RHvwbyYLj6xD250i",
-          "name": "Google Gemini(PaLM) Api account"
+          "id": "LL6Q8o0lT022o9ra",
+          "name": "Google Gemini(PaLM) Api account 2"
         }
       }
     },
@@ -532,6 +531,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-12-05T21:00:51.000Z",
-  "versionId": "3fcc785e-8572-475a-ba17-4a42486a1f09"
+  "updatedAt": "2025-12-13T07:54:33.000Z",
+  "versionId": "a804c5e4-119b-44e5-a99a-da3c3cf6f77f"
 }
