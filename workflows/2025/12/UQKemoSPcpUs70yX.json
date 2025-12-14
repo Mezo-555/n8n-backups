@@ -70,11 +70,6 @@
       "main": [
         [
           {
-            "node": "Send message",
-            "type": "main",
-            "index": 0
-          },
-          {
             "node": "Send a message",
             "type": "main",
             "index": 0
@@ -345,7 +340,6 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.5-pro",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
@@ -362,32 +356,6 @@
           "name": "Google Gemini(PaLM) Api account"
         }
       }
-    },
-    {
-      "parameters": {
-        "operation": "send",
-        "phoneNumberId": "912881698567455",
-        "recipientPhoneNumber": "201008548242",
-        "textBody": "={{ $json.output }}",
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1.1,
-      "position": [
-        1872,
-        -80
-      ],
-      "id": "be8fc3c6-8db5-484b-bbd3-2a1fe36ea90e",
-      "name": "Send message",
-      "webhookId": "2a725d34-702b-4054-84f8-bdbdafd4171e",
-      "alwaysOutputData": false,
-      "credentials": {
-        "whatsAppApi": {
-          "id": "xBhT2ho0PEfSajpf",
-          "name": "WhatsApp account"
-        }
-      },
-      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -629,12 +597,12 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        1872,
-        112
+        1856,
+        -16
       ],
-      "id": "40acf3b8-5ba5-4c56-8f66-5e13fe59e8d5",
+      "id": "d8018dea-24ef-48eb-b608-dfe88f797f75",
       "name": "Send a message",
-      "webhookId": "159ab3ee-61cf-44aa-aa12-1684812c3e45",
+      "webhookId": "4fd0a31d-1bea-4285-bd54-506e0b18a126",
       "credentials": {
         "gmailOAuth2": {
           "id": "0naCbfmZQrJH2in7",
@@ -666,6 +634,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-12-05T21:10:08.000Z",
-  "versionId": "15f3c9d4-70dd-4c0f-8f88-74c3ae48427b"
+  "updatedAt": "2025-12-13T07:54:13.000Z",
+  "versionId": "393f126b-7261-401e-ac67-0f7e2fa0c029"
 }
